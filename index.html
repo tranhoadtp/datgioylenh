@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt giờ y lệnh</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 20px; }
+        table { border-collapse: collapse; margin: auto; }
+        td { padding: 4px 6px; border: 1px solid #ccc; border-radius: 4px; min-width: 70px; text-align: center; position: relative; }
+        .picked { background-color: #e74c3c; color: white; cursor: not-allowed; }
+        .available { background-color: #2ecc71; color: white; cursor: pointer; }
+        .added { background-color: #3498db; color: white; }
+        td:hover:not(.picked):not(.added) { background-color: #27ae60; }
+        .add-btn { position: absolute; top: 2px; right: 2px; background: white; color: black; border: 1px solid #ccc; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: pointer; }
+        .del-btn { margin-top: 4px; font-size: 10px; cursor: pointer; background: #fff; border: 1px solid #ccc; border-radius: 3px; padding: 2px 4px; }
+        button.reset { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+    </style>
+    <script>
+        const picked = new Set(["14:15","07:06","07:00","10:30","21:45","18:00"]);
+        const added = new Set();
+
+        function addTime(base, tdElem) {
+            const baseParts = base.split(":");
+            const baseMinutes = parseInt(baseParts[0]) * 60 + parseInt(baseParts[1]);
+
+            for (let offset = 1; offset <= 2; offset++) {
+                const newMinutes = baseMinutes + offset;
+                const hours = String(Math.floor(newMinutes / 60)).padStart(2, '0');
+                const mins = String(newMinutes % 60).padStart(2, '0');
+                const newTime = hours + ":" + mins;
+                if (!picked.has(newTime) && !added.has(newTime)) {
+                    const newTd = document.createElement("td");
+                    newTd.className = "added";
+                    newTd.innerHTML = newTime + "<br><span class='del-btn' onclick='removeSlot(this, "" + newTime + "")'>Xóa</span>";
+                    tdElem.parentNode.insertBefore(newTd, tdElem.nextSibling);
+                    added.add(newTime);
+                    break;
+                }
+            }
+        }
+
+        function removeSlot(elem, time) {
+            added.delete(time);
+            elem.parentNode.remove();
+        }
+
+        function resetSlots() {
+            location.reload();
+        }
+    </script>
+</head>
+<body>
+    <h2>Đặt thời gian y lệnh (bổ sung giờ gần kề + có thể xóa)</h2>
+    <table>
+<tr>
+<td class="available" id="slot-00:00">00:00<button class="add-btn" onclick="addTime('00:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:03">00:03<button class="add-btn" onclick="addTime('00:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:06">00:06<button class="add-btn" onclick="addTime('00:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:09">00:09<button class="add-btn" onclick="addTime('00:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:12">00:12<button class="add-btn" onclick="addTime('00:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:15">00:15<button class="add-btn" onclick="addTime('00:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:18">00:18<button class="add-btn" onclick="addTime('00:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:21">00:21<button class="add-btn" onclick="addTime('00:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:24">00:24<button class="add-btn" onclick="addTime('00:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:27">00:27<button class="add-btn" onclick="addTime('00:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:30">00:30<button class="add-btn" onclick="addTime('00:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:33">00:33<button class="add-btn" onclick="addTime('00:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-00:36">00:36<button class="add-btn" onclick="addTime('00:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:39">00:39<button class="add-btn" onclick="addTime('00:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:42">00:42<button class="add-btn" onclick="addTime('00:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:45">00:45<button class="add-btn" onclick="addTime('00:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:48">00:48<button class="add-btn" onclick="addTime('00:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:51">00:51<button class="add-btn" onclick="addTime('00:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:54">00:54<button class="add-btn" onclick="addTime('00:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-00:57">00:57<button class="add-btn" onclick="addTime('00:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:00">01:00<button class="add-btn" onclick="addTime('01:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:03">01:03<button class="add-btn" onclick="addTime('01:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:06">01:06<button class="add-btn" onclick="addTime('01:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:09">01:09<button class="add-btn" onclick="addTime('01:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-01:12">01:12<button class="add-btn" onclick="addTime('01:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:15">01:15<button class="add-btn" onclick="addTime('01:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:18">01:18<button class="add-btn" onclick="addTime('01:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:21">01:21<button class="add-btn" onclick="addTime('01:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:24">01:24<button class="add-btn" onclick="addTime('01:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:27">01:27<button class="add-btn" onclick="addTime('01:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:30">01:30<button class="add-btn" onclick="addTime('01:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:33">01:33<button class="add-btn" onclick="addTime('01:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:36">01:36<button class="add-btn" onclick="addTime('01:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:39">01:39<button class="add-btn" onclick="addTime('01:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:42">01:42<button class="add-btn" onclick="addTime('01:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:45">01:45<button class="add-btn" onclick="addTime('01:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-01:48">01:48<button class="add-btn" onclick="addTime('01:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:51">01:51<button class="add-btn" onclick="addTime('01:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:54">01:54<button class="add-btn" onclick="addTime('01:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-01:57">01:57<button class="add-btn" onclick="addTime('01:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:00">02:00<button class="add-btn" onclick="addTime('02:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:03">02:03<button class="add-btn" onclick="addTime('02:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:06">02:06<button class="add-btn" onclick="addTime('02:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:09">02:09<button class="add-btn" onclick="addTime('02:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:12">02:12<button class="add-btn" onclick="addTime('02:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:15">02:15<button class="add-btn" onclick="addTime('02:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:18">02:18<button class="add-btn" onclick="addTime('02:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:21">02:21<button class="add-btn" onclick="addTime('02:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-02:24">02:24<button class="add-btn" onclick="addTime('02:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:27">02:27<button class="add-btn" onclick="addTime('02:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:30">02:30<button class="add-btn" onclick="addTime('02:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:33">02:33<button class="add-btn" onclick="addTime('02:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:36">02:36<button class="add-btn" onclick="addTime('02:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:39">02:39<button class="add-btn" onclick="addTime('02:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:42">02:42<button class="add-btn" onclick="addTime('02:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:45">02:45<button class="add-btn" onclick="addTime('02:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:48">02:48<button class="add-btn" onclick="addTime('02:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:51">02:51<button class="add-btn" onclick="addTime('02:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:54">02:54<button class="add-btn" onclick="addTime('02:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-02:57">02:57<button class="add-btn" onclick="addTime('02:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-03:00">03:00<button class="add-btn" onclick="addTime('03:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:03">03:03<button class="add-btn" onclick="addTime('03:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:06">03:06<button class="add-btn" onclick="addTime('03:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:09">03:09<button class="add-btn" onclick="addTime('03:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:12">03:12<button class="add-btn" onclick="addTime('03:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:15">03:15<button class="add-btn" onclick="addTime('03:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:18">03:18<button class="add-btn" onclick="addTime('03:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:21">03:21<button class="add-btn" onclick="addTime('03:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:24">03:24<button class="add-btn" onclick="addTime('03:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:27">03:27<button class="add-btn" onclick="addTime('03:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:30">03:30<button class="add-btn" onclick="addTime('03:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:33">03:33<button class="add-btn" onclick="addTime('03:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-03:36">03:36<button class="add-btn" onclick="addTime('03:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:39">03:39<button class="add-btn" onclick="addTime('03:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:42">03:42<button class="add-btn" onclick="addTime('03:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:45">03:45<button class="add-btn" onclick="addTime('03:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:48">03:48<button class="add-btn" onclick="addTime('03:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:51">03:51<button class="add-btn" onclick="addTime('03:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:54">03:54<button class="add-btn" onclick="addTime('03:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-03:57">03:57<button class="add-btn" onclick="addTime('03:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:00">04:00<button class="add-btn" onclick="addTime('04:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:03">04:03<button class="add-btn" onclick="addTime('04:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:06">04:06<button class="add-btn" onclick="addTime('04:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:09">04:09<button class="add-btn" onclick="addTime('04:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-04:12">04:12<button class="add-btn" onclick="addTime('04:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:15">04:15<button class="add-btn" onclick="addTime('04:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:18">04:18<button class="add-btn" onclick="addTime('04:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:21">04:21<button class="add-btn" onclick="addTime('04:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:24">04:24<button class="add-btn" onclick="addTime('04:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:27">04:27<button class="add-btn" onclick="addTime('04:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:30">04:30<button class="add-btn" onclick="addTime('04:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:33">04:33<button class="add-btn" onclick="addTime('04:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:36">04:36<button class="add-btn" onclick="addTime('04:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:39">04:39<button class="add-btn" onclick="addTime('04:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:42">04:42<button class="add-btn" onclick="addTime('04:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:45">04:45<button class="add-btn" onclick="addTime('04:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-04:48">04:48<button class="add-btn" onclick="addTime('04:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:51">04:51<button class="add-btn" onclick="addTime('04:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:54">04:54<button class="add-btn" onclick="addTime('04:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-04:57">04:57<button class="add-btn" onclick="addTime('04:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:00">05:00<button class="add-btn" onclick="addTime('05:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:03">05:03<button class="add-btn" onclick="addTime('05:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:06">05:06<button class="add-btn" onclick="addTime('05:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:09">05:09<button class="add-btn" onclick="addTime('05:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:12">05:12<button class="add-btn" onclick="addTime('05:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:15">05:15<button class="add-btn" onclick="addTime('05:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:18">05:18<button class="add-btn" onclick="addTime('05:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:21">05:21<button class="add-btn" onclick="addTime('05:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-05:24">05:24<button class="add-btn" onclick="addTime('05:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:27">05:27<button class="add-btn" onclick="addTime('05:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:30">05:30<button class="add-btn" onclick="addTime('05:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:33">05:33<button class="add-btn" onclick="addTime('05:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:36">05:36<button class="add-btn" onclick="addTime('05:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:39">05:39<button class="add-btn" onclick="addTime('05:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:42">05:42<button class="add-btn" onclick="addTime('05:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:45">05:45<button class="add-btn" onclick="addTime('05:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:48">05:48<button class="add-btn" onclick="addTime('05:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:51">05:51<button class="add-btn" onclick="addTime('05:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:54">05:54<button class="add-btn" onclick="addTime('05:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-05:57">05:57<button class="add-btn" onclick="addTime('05:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-06:00">06:00<button class="add-btn" onclick="addTime('06:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:03">06:03<button class="add-btn" onclick="addTime('06:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:06">06:06<button class="add-btn" onclick="addTime('06:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:09">06:09<button class="add-btn" onclick="addTime('06:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:12">06:12<button class="add-btn" onclick="addTime('06:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:15">06:15<button class="add-btn" onclick="addTime('06:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:18">06:18<button class="add-btn" onclick="addTime('06:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:21">06:21<button class="add-btn" onclick="addTime('06:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:24">06:24<button class="add-btn" onclick="addTime('06:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:27">06:27<button class="add-btn" onclick="addTime('06:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:30">06:30<button class="add-btn" onclick="addTime('06:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:33">06:33<button class="add-btn" onclick="addTime('06:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-06:36">06:36<button class="add-btn" onclick="addTime('06:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:39">06:39<button class="add-btn" onclick="addTime('06:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:42">06:42<button class="add-btn" onclick="addTime('06:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:45">06:45<button class="add-btn" onclick="addTime('06:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:48">06:48<button class="add-btn" onclick="addTime('06:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:51">06:51<button class="add-btn" onclick="addTime('06:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:54">06:54<button class="add-btn" onclick="addTime('06:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-06:57">06:57<button class="add-btn" onclick="addTime('06:57', this.parentNode)">+</button></td>
+<td class="picked" id="slot-07:00">07:00</td>
+<td class="available" id="slot-07:03">07:03<button class="add-btn" onclick="addTime('07:03', this.parentNode)">+</button></td>
+<td class="picked" id="slot-07:06">07:06</td>
+<td class="available" id="slot-07:09">07:09<button class="add-btn" onclick="addTime('07:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-07:12">07:12<button class="add-btn" onclick="addTime('07:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:15">07:15<button class="add-btn" onclick="addTime('07:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:18">07:18<button class="add-btn" onclick="addTime('07:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:21">07:21<button class="add-btn" onclick="addTime('07:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:24">07:24<button class="add-btn" onclick="addTime('07:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:27">07:27<button class="add-btn" onclick="addTime('07:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:30">07:30<button class="add-btn" onclick="addTime('07:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:33">07:33<button class="add-btn" onclick="addTime('07:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:36">07:36<button class="add-btn" onclick="addTime('07:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:39">07:39<button class="add-btn" onclick="addTime('07:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:42">07:42<button class="add-btn" onclick="addTime('07:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:45">07:45<button class="add-btn" onclick="addTime('07:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-07:48">07:48<button class="add-btn" onclick="addTime('07:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:51">07:51<button class="add-btn" onclick="addTime('07:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:54">07:54<button class="add-btn" onclick="addTime('07:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-07:57">07:57<button class="add-btn" onclick="addTime('07:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:00">08:00<button class="add-btn" onclick="addTime('08:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:03">08:03<button class="add-btn" onclick="addTime('08:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:06">08:06<button class="add-btn" onclick="addTime('08:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:09">08:09<button class="add-btn" onclick="addTime('08:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:12">08:12<button class="add-btn" onclick="addTime('08:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:15">08:15<button class="add-btn" onclick="addTime('08:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:18">08:18<button class="add-btn" onclick="addTime('08:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:21">08:21<button class="add-btn" onclick="addTime('08:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-08:24">08:24<button class="add-btn" onclick="addTime('08:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:27">08:27<button class="add-btn" onclick="addTime('08:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:30">08:30<button class="add-btn" onclick="addTime('08:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:33">08:33<button class="add-btn" onclick="addTime('08:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:36">08:36<button class="add-btn" onclick="addTime('08:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:39">08:39<button class="add-btn" onclick="addTime('08:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:42">08:42<button class="add-btn" onclick="addTime('08:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:45">08:45<button class="add-btn" onclick="addTime('08:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:48">08:48<button class="add-btn" onclick="addTime('08:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:51">08:51<button class="add-btn" onclick="addTime('08:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:54">08:54<button class="add-btn" onclick="addTime('08:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-08:57">08:57<button class="add-btn" onclick="addTime('08:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-09:00">09:00<button class="add-btn" onclick="addTime('09:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:03">09:03<button class="add-btn" onclick="addTime('09:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:06">09:06<button class="add-btn" onclick="addTime('09:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:09">09:09<button class="add-btn" onclick="addTime('09:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:12">09:12<button class="add-btn" onclick="addTime('09:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:15">09:15<button class="add-btn" onclick="addTime('09:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:18">09:18<button class="add-btn" onclick="addTime('09:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:21">09:21<button class="add-btn" onclick="addTime('09:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:24">09:24<button class="add-btn" onclick="addTime('09:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:27">09:27<button class="add-btn" onclick="addTime('09:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:30">09:30<button class="add-btn" onclick="addTime('09:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:33">09:33<button class="add-btn" onclick="addTime('09:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-09:36">09:36<button class="add-btn" onclick="addTime('09:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:39">09:39<button class="add-btn" onclick="addTime('09:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:42">09:42<button class="add-btn" onclick="addTime('09:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:45">09:45<button class="add-btn" onclick="addTime('09:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:48">09:48<button class="add-btn" onclick="addTime('09:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:51">09:51<button class="add-btn" onclick="addTime('09:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:54">09:54<button class="add-btn" onclick="addTime('09:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-09:57">09:57<button class="add-btn" onclick="addTime('09:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:00">10:00<button class="add-btn" onclick="addTime('10:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:03">10:03<button class="add-btn" onclick="addTime('10:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:06">10:06<button class="add-btn" onclick="addTime('10:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:09">10:09<button class="add-btn" onclick="addTime('10:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-10:12">10:12<button class="add-btn" onclick="addTime('10:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:15">10:15<button class="add-btn" onclick="addTime('10:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:18">10:18<button class="add-btn" onclick="addTime('10:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:21">10:21<button class="add-btn" onclick="addTime('10:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:24">10:24<button class="add-btn" onclick="addTime('10:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:27">10:27<button class="add-btn" onclick="addTime('10:27', this.parentNode)">+</button></td>
+<td class="picked" id="slot-10:30">10:30</td>
+<td class="available" id="slot-10:33">10:33<button class="add-btn" onclick="addTime('10:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:36">10:36<button class="add-btn" onclick="addTime('10:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:39">10:39<button class="add-btn" onclick="addTime('10:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:42">10:42<button class="add-btn" onclick="addTime('10:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:45">10:45<button class="add-btn" onclick="addTime('10:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-10:48">10:48<button class="add-btn" onclick="addTime('10:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:51">10:51<button class="add-btn" onclick="addTime('10:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:54">10:54<button class="add-btn" onclick="addTime('10:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-10:57">10:57<button class="add-btn" onclick="addTime('10:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:00">11:00<button class="add-btn" onclick="addTime('11:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:03">11:03<button class="add-btn" onclick="addTime('11:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:06">11:06<button class="add-btn" onclick="addTime('11:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:09">11:09<button class="add-btn" onclick="addTime('11:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:12">11:12<button class="add-btn" onclick="addTime('11:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:15">11:15<button class="add-btn" onclick="addTime('11:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:18">11:18<button class="add-btn" onclick="addTime('11:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:21">11:21<button class="add-btn" onclick="addTime('11:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-11:24">11:24<button class="add-btn" onclick="addTime('11:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:27">11:27<button class="add-btn" onclick="addTime('11:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:30">11:30<button class="add-btn" onclick="addTime('11:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:33">11:33<button class="add-btn" onclick="addTime('11:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:36">11:36<button class="add-btn" onclick="addTime('11:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:39">11:39<button class="add-btn" onclick="addTime('11:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:42">11:42<button class="add-btn" onclick="addTime('11:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:45">11:45<button class="add-btn" onclick="addTime('11:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:48">11:48<button class="add-btn" onclick="addTime('11:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:51">11:51<button class="add-btn" onclick="addTime('11:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:54">11:54<button class="add-btn" onclick="addTime('11:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-11:57">11:57<button class="add-btn" onclick="addTime('11:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-12:00">12:00<button class="add-btn" onclick="addTime('12:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:03">12:03<button class="add-btn" onclick="addTime('12:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:06">12:06<button class="add-btn" onclick="addTime('12:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:09">12:09<button class="add-btn" onclick="addTime('12:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:12">12:12<button class="add-btn" onclick="addTime('12:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:15">12:15<button class="add-btn" onclick="addTime('12:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:18">12:18<button class="add-btn" onclick="addTime('12:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:21">12:21<button class="add-btn" onclick="addTime('12:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:24">12:24<button class="add-btn" onclick="addTime('12:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:27">12:27<button class="add-btn" onclick="addTime('12:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:30">12:30<button class="add-btn" onclick="addTime('12:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:33">12:33<button class="add-btn" onclick="addTime('12:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-12:36">12:36<button class="add-btn" onclick="addTime('12:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:39">12:39<button class="add-btn" onclick="addTime('12:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:42">12:42<button class="add-btn" onclick="addTime('12:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:45">12:45<button class="add-btn" onclick="addTime('12:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:48">12:48<button class="add-btn" onclick="addTime('12:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:51">12:51<button class="add-btn" onclick="addTime('12:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:54">12:54<button class="add-btn" onclick="addTime('12:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-12:57">12:57<button class="add-btn" onclick="addTime('12:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:00">13:00<button class="add-btn" onclick="addTime('13:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:03">13:03<button class="add-btn" onclick="addTime('13:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:06">13:06<button class="add-btn" onclick="addTime('13:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:09">13:09<button class="add-btn" onclick="addTime('13:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-13:12">13:12<button class="add-btn" onclick="addTime('13:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:15">13:15<button class="add-btn" onclick="addTime('13:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:18">13:18<button class="add-btn" onclick="addTime('13:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:21">13:21<button class="add-btn" onclick="addTime('13:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:24">13:24<button class="add-btn" onclick="addTime('13:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:27">13:27<button class="add-btn" onclick="addTime('13:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:30">13:30<button class="add-btn" onclick="addTime('13:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:33">13:33<button class="add-btn" onclick="addTime('13:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:36">13:36<button class="add-btn" onclick="addTime('13:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:39">13:39<button class="add-btn" onclick="addTime('13:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:42">13:42<button class="add-btn" onclick="addTime('13:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:45">13:45<button class="add-btn" onclick="addTime('13:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-13:48">13:48<button class="add-btn" onclick="addTime('13:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:51">13:51<button class="add-btn" onclick="addTime('13:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:54">13:54<button class="add-btn" onclick="addTime('13:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-13:57">13:57<button class="add-btn" onclick="addTime('13:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:00">14:00<button class="add-btn" onclick="addTime('14:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:03">14:03<button class="add-btn" onclick="addTime('14:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:06">14:06<button class="add-btn" onclick="addTime('14:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:09">14:09<button class="add-btn" onclick="addTime('14:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:12">14:12<button class="add-btn" onclick="addTime('14:12', this.parentNode)">+</button></td>
+<td class="picked" id="slot-14:15">14:15</td>
+<td class="available" id="slot-14:18">14:18<button class="add-btn" onclick="addTime('14:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:21">14:21<button class="add-btn" onclick="addTime('14:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-14:24">14:24<button class="add-btn" onclick="addTime('14:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:27">14:27<button class="add-btn" onclick="addTime('14:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:30">14:30<button class="add-btn" onclick="addTime('14:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:33">14:33<button class="add-btn" onclick="addTime('14:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:36">14:36<button class="add-btn" onclick="addTime('14:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:39">14:39<button class="add-btn" onclick="addTime('14:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:42">14:42<button class="add-btn" onclick="addTime('14:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:45">14:45<button class="add-btn" onclick="addTime('14:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:48">14:48<button class="add-btn" onclick="addTime('14:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:51">14:51<button class="add-btn" onclick="addTime('14:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:54">14:54<button class="add-btn" onclick="addTime('14:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-14:57">14:57<button class="add-btn" onclick="addTime('14:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-15:00">15:00<button class="add-btn" onclick="addTime('15:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:03">15:03<button class="add-btn" onclick="addTime('15:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:06">15:06<button class="add-btn" onclick="addTime('15:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:09">15:09<button class="add-btn" onclick="addTime('15:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:12">15:12<button class="add-btn" onclick="addTime('15:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:15">15:15<button class="add-btn" onclick="addTime('15:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:18">15:18<button class="add-btn" onclick="addTime('15:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:21">15:21<button class="add-btn" onclick="addTime('15:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:24">15:24<button class="add-btn" onclick="addTime('15:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:27">15:27<button class="add-btn" onclick="addTime('15:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:30">15:30<button class="add-btn" onclick="addTime('15:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:33">15:33<button class="add-btn" onclick="addTime('15:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-15:36">15:36<button class="add-btn" onclick="addTime('15:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:39">15:39<button class="add-btn" onclick="addTime('15:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:42">15:42<button class="add-btn" onclick="addTime('15:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:45">15:45<button class="add-btn" onclick="addTime('15:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:48">15:48<button class="add-btn" onclick="addTime('15:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:51">15:51<button class="add-btn" onclick="addTime('15:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:54">15:54<button class="add-btn" onclick="addTime('15:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-15:57">15:57<button class="add-btn" onclick="addTime('15:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:00">16:00<button class="add-btn" onclick="addTime('16:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:03">16:03<button class="add-btn" onclick="addTime('16:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:06">16:06<button class="add-btn" onclick="addTime('16:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:09">16:09<button class="add-btn" onclick="addTime('16:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-16:12">16:12<button class="add-btn" onclick="addTime('16:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:15">16:15<button class="add-btn" onclick="addTime('16:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:18">16:18<button class="add-btn" onclick="addTime('16:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:21">16:21<button class="add-btn" onclick="addTime('16:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:24">16:24<button class="add-btn" onclick="addTime('16:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:27">16:27<button class="add-btn" onclick="addTime('16:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:30">16:30<button class="add-btn" onclick="addTime('16:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:33">16:33<button class="add-btn" onclick="addTime('16:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:36">16:36<button class="add-btn" onclick="addTime('16:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:39">16:39<button class="add-btn" onclick="addTime('16:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:42">16:42<button class="add-btn" onclick="addTime('16:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:45">16:45<button class="add-btn" onclick="addTime('16:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-16:48">16:48<button class="add-btn" onclick="addTime('16:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:51">16:51<button class="add-btn" onclick="addTime('16:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:54">16:54<button class="add-btn" onclick="addTime('16:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-16:57">16:57<button class="add-btn" onclick="addTime('16:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:00">17:00<button class="add-btn" onclick="addTime('17:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:03">17:03<button class="add-btn" onclick="addTime('17:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:06">17:06<button class="add-btn" onclick="addTime('17:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:09">17:09<button class="add-btn" onclick="addTime('17:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:12">17:12<button class="add-btn" onclick="addTime('17:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:15">17:15<button class="add-btn" onclick="addTime('17:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:18">17:18<button class="add-btn" onclick="addTime('17:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:21">17:21<button class="add-btn" onclick="addTime('17:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-17:24">17:24<button class="add-btn" onclick="addTime('17:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:27">17:27<button class="add-btn" onclick="addTime('17:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:30">17:30<button class="add-btn" onclick="addTime('17:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:33">17:33<button class="add-btn" onclick="addTime('17:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:36">17:36<button class="add-btn" onclick="addTime('17:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:39">17:39<button class="add-btn" onclick="addTime('17:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:42">17:42<button class="add-btn" onclick="addTime('17:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:45">17:45<button class="add-btn" onclick="addTime('17:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:48">17:48<button class="add-btn" onclick="addTime('17:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:51">17:51<button class="add-btn" onclick="addTime('17:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:54">17:54<button class="add-btn" onclick="addTime('17:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-17:57">17:57<button class="add-btn" onclick="addTime('17:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="picked" id="slot-18:00">18:00</td>
+<td class="available" id="slot-18:03">18:03<button class="add-btn" onclick="addTime('18:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:06">18:06<button class="add-btn" onclick="addTime('18:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:09">18:09<button class="add-btn" onclick="addTime('18:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:12">18:12<button class="add-btn" onclick="addTime('18:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:15">18:15<button class="add-btn" onclick="addTime('18:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:18">18:18<button class="add-btn" onclick="addTime('18:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:21">18:21<button class="add-btn" onclick="addTime('18:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:24">18:24<button class="add-btn" onclick="addTime('18:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:27">18:27<button class="add-btn" onclick="addTime('18:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:30">18:30<button class="add-btn" onclick="addTime('18:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:33">18:33<button class="add-btn" onclick="addTime('18:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-18:36">18:36<button class="add-btn" onclick="addTime('18:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:39">18:39<button class="add-btn" onclick="addTime('18:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:42">18:42<button class="add-btn" onclick="addTime('18:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:45">18:45<button class="add-btn" onclick="addTime('18:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:48">18:48<button class="add-btn" onclick="addTime('18:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:51">18:51<button class="add-btn" onclick="addTime('18:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:54">18:54<button class="add-btn" onclick="addTime('18:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-18:57">18:57<button class="add-btn" onclick="addTime('18:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:00">19:00<button class="add-btn" onclick="addTime('19:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:03">19:03<button class="add-btn" onclick="addTime('19:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:06">19:06<button class="add-btn" onclick="addTime('19:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:09">19:09<button class="add-btn" onclick="addTime('19:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-19:12">19:12<button class="add-btn" onclick="addTime('19:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:15">19:15<button class="add-btn" onclick="addTime('19:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:18">19:18<button class="add-btn" onclick="addTime('19:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:21">19:21<button class="add-btn" onclick="addTime('19:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:24">19:24<button class="add-btn" onclick="addTime('19:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:27">19:27<button class="add-btn" onclick="addTime('19:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:30">19:30<button class="add-btn" onclick="addTime('19:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:33">19:33<button class="add-btn" onclick="addTime('19:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:36">19:36<button class="add-btn" onclick="addTime('19:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:39">19:39<button class="add-btn" onclick="addTime('19:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:42">19:42<button class="add-btn" onclick="addTime('19:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:45">19:45<button class="add-btn" onclick="addTime('19:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-19:48">19:48<button class="add-btn" onclick="addTime('19:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:51">19:51<button class="add-btn" onclick="addTime('19:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:54">19:54<button class="add-btn" onclick="addTime('19:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-19:57">19:57<button class="add-btn" onclick="addTime('19:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:00">20:00<button class="add-btn" onclick="addTime('20:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:03">20:03<button class="add-btn" onclick="addTime('20:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:06">20:06<button class="add-btn" onclick="addTime('20:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:09">20:09<button class="add-btn" onclick="addTime('20:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:12">20:12<button class="add-btn" onclick="addTime('20:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:15">20:15<button class="add-btn" onclick="addTime('20:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:18">20:18<button class="add-btn" onclick="addTime('20:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:21">20:21<button class="add-btn" onclick="addTime('20:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-20:24">20:24<button class="add-btn" onclick="addTime('20:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:27">20:27<button class="add-btn" onclick="addTime('20:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:30">20:30<button class="add-btn" onclick="addTime('20:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:33">20:33<button class="add-btn" onclick="addTime('20:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:36">20:36<button class="add-btn" onclick="addTime('20:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:39">20:39<button class="add-btn" onclick="addTime('20:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:42">20:42<button class="add-btn" onclick="addTime('20:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:45">20:45<button class="add-btn" onclick="addTime('20:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:48">20:48<button class="add-btn" onclick="addTime('20:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:51">20:51<button class="add-btn" onclick="addTime('20:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:54">20:54<button class="add-btn" onclick="addTime('20:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-20:57">20:57<button class="add-btn" onclick="addTime('20:57', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-21:00">21:00<button class="add-btn" onclick="addTime('21:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:03">21:03<button class="add-btn" onclick="addTime('21:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:06">21:06<button class="add-btn" onclick="addTime('21:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:09">21:09<button class="add-btn" onclick="addTime('21:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:12">21:12<button class="add-btn" onclick="addTime('21:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:15">21:15<button class="add-btn" onclick="addTime('21:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:18">21:18<button class="add-btn" onclick="addTime('21:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:21">21:21<button class="add-btn" onclick="addTime('21:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:24">21:24<button class="add-btn" onclick="addTime('21:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:27">21:27<button class="add-btn" onclick="addTime('21:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:30">21:30<button class="add-btn" onclick="addTime('21:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:33">21:33<button class="add-btn" onclick="addTime('21:33', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-21:36">21:36<button class="add-btn" onclick="addTime('21:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:39">21:39<button class="add-btn" onclick="addTime('21:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:42">21:42<button class="add-btn" onclick="addTime('21:42', this.parentNode)">+</button></td>
+<td class="picked" id="slot-21:45">21:45</td>
+<td class="available" id="slot-21:48">21:48<button class="add-btn" onclick="addTime('21:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:51">21:51<button class="add-btn" onclick="addTime('21:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:54">21:54<button class="add-btn" onclick="addTime('21:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-21:57">21:57<button class="add-btn" onclick="addTime('21:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:00">22:00<button class="add-btn" onclick="addTime('22:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:03">22:03<button class="add-btn" onclick="addTime('22:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:06">22:06<button class="add-btn" onclick="addTime('22:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:09">22:09<button class="add-btn" onclick="addTime('22:09', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-22:12">22:12<button class="add-btn" onclick="addTime('22:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:15">22:15<button class="add-btn" onclick="addTime('22:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:18">22:18<button class="add-btn" onclick="addTime('22:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:21">22:21<button class="add-btn" onclick="addTime('22:21', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:24">22:24<button class="add-btn" onclick="addTime('22:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:27">22:27<button class="add-btn" onclick="addTime('22:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:30">22:30<button class="add-btn" onclick="addTime('22:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:33">22:33<button class="add-btn" onclick="addTime('22:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:36">22:36<button class="add-btn" onclick="addTime('22:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:39">22:39<button class="add-btn" onclick="addTime('22:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:42">22:42<button class="add-btn" onclick="addTime('22:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:45">22:45<button class="add-btn" onclick="addTime('22:45', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-22:48">22:48<button class="add-btn" onclick="addTime('22:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:51">22:51<button class="add-btn" onclick="addTime('22:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:54">22:54<button class="add-btn" onclick="addTime('22:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-22:57">22:57<button class="add-btn" onclick="addTime('22:57', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:00">23:00<button class="add-btn" onclick="addTime('23:00', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:03">23:03<button class="add-btn" onclick="addTime('23:03', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:06">23:06<button class="add-btn" onclick="addTime('23:06', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:09">23:09<button class="add-btn" onclick="addTime('23:09', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:12">23:12<button class="add-btn" onclick="addTime('23:12', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:15">23:15<button class="add-btn" onclick="addTime('23:15', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:18">23:18<button class="add-btn" onclick="addTime('23:18', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:21">23:21<button class="add-btn" onclick="addTime('23:21', this.parentNode)">+</button></td>
+</tr>
+<tr>
+<td class="available" id="slot-23:24">23:24<button class="add-btn" onclick="addTime('23:24', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:27">23:27<button class="add-btn" onclick="addTime('23:27', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:30">23:30<button class="add-btn" onclick="addTime('23:30', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:33">23:33<button class="add-btn" onclick="addTime('23:33', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:36">23:36<button class="add-btn" onclick="addTime('23:36', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:39">23:39<button class="add-btn" onclick="addTime('23:39', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:42">23:42<button class="add-btn" onclick="addTime('23:42', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:45">23:45<button class="add-btn" onclick="addTime('23:45', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:48">23:48<button class="add-btn" onclick="addTime('23:48', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:51">23:51<button class="add-btn" onclick="addTime('23:51', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:54">23:54<button class="add-btn" onclick="addTime('23:54', this.parentNode)">+</button></td>
+<td class="available" id="slot-23:57">23:57<button class="add-btn" onclick="addTime('23:57', this.parentNode)">+</button></td>
+</tr>
+
+    </table>
+    <p style="margin-top: 20px;">🟥 Giờ đã đặt | 🟩 Giờ trống | 🔵 Giờ thêm</p>
+    <button class="reset" onclick="resetSlots()">🔄 Làm mới bảng giờ</button>
+</body>
+</html>
